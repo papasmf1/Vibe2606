@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HTML5/CSS3/JavaScript Demo</title>
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #f8fafc, #e2e8f0);
+      --card: #ffffff;
+      --text: #0f172a;
+      --accent: #0ea5e9;
+      --accent-2: #22c55e;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", "Noto Sans KR", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .demo-card {
+      width: min(720px, 100%);
+      background: var(--card);
+      border-radius: 18px;
+      box-shadow: 0 12px 40px rgba(2, 6, 23, 0.15);
+      padding: 28px;
+      animation: fadeIn 0.45s ease-out;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(1.5rem, 2.2vw, 2rem);
+    }
+
+    p {
+      margin: 0 0 18px;
+      line-height: 1.6;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.2s ease;
+      color: white;
+      background: var(--accent);
+    }
+
+    button:nth-child(2) {
+      background: var(--accent-2);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.02);
+    }
+
+    .result {
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 0.95rem;
+      background: #f8fafc;
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      background: #e2e8f0;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="demo-card">
+    <h1>간단한 HTML5/CSS3/JavaScript 데모</h1>
+    <p>
+      버튼을 눌러 카운트를 올리거나 테마 색상을 바꿔보세요.
+      현재 시각도 JavaScript로 동적으로 표시됩니다.
+    </p>
+
+    <div class="controls">
+      <button id="countBtn" type="button">카운트 +1</button>
+      <button id="themeBtn" type="button">테마 변경</button>
+    </div>
+
+    <div class="result" id="output">
+      카운트: <strong>0</strong><br />
+      현재 시각: <code id="clock">-</code>
+    </div>
+  </main>
+
+  <script>
+    let count = 0;
+    let themeToggle = false;
+
+    const countBtn = document.getElementById("countBtn");
+    const themeBtn = document.getElementById("themeBtn");
+    const output = document.getElementById("output");
+    const clock = document.getElementById("clock");
+
+    function updateCountView() {
+      output.innerHTML = `카운트: <strong>${count}</strong><br />현재 시각: <code id="clock">${clock.textContent}</code>`;
+    }
+
+    function updateClock() {
+      const now = new Date();
+      clock.textContent = now.toLocaleTimeString("ko-KR");
+    }
+
+    countBtn.addEventListener("click", () => {
+      count += 1;
+      updateCountView();
+    });
+
+    themeBtn.addEventListener("click", () => {
+      themeToggle = !themeToggle;
+      if (themeToggle) {
+        document.documentElement.style.setProperty("--bg", "linear-gradient(135deg, #fff7ed, #ffe4e6)");
+        document.documentElement.style.setProperty("--accent", "#f97316");
+        document.documentElement.style.setProperty("--accent-2", "#e11d48");
+      } else {
+        document.documentElement.style.setProperty("--bg", "linear-gradient(135deg, #f8fafc, #e2e8f0)");
+        document.documentElement.style.setProperty("--accent", "#0ea5e9");
+        document.documentElement.style.setProperty("--accent-2", "#22c55e");
+      }
+    });
+
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
+</body>
+</html>
